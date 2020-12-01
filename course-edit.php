@@ -4,46 +4,47 @@ session_start();
  * Connect to DB
  */
 require_once("config/db_config.php");
-if(strlen($_SESSION['email']) == 0){
-  header("Location:index.php"); 
-}else{
+if (strlen($_SESSION['email']) == 0) {
+  header("Location:index.php");
+} else {
+  /**
+   * Test Db Config
+   */
+  if ($dbh) {
     /**
-     * Test Db Config
+     * Get id form url
      */
-    if($dbh){
-        /**
-         * Get id form url
-         */
-        if(isset($_GET['id'])){
-           /**
-            * Select Query
-            */
-            $sql = "SELECT * FROM `course` WHERE id = :id";
-            /**
-             * prepare statement
-             */
-            $stmt = $dbh->prepare($sql);
-            /**
-             * Bind Param
-             */
-            $stmt->bindParam(':id', $_GET['id']);
-            /**
-             * Execute Query
-             */
-            $stmt->execute();
-            /**
-             * Fetch Single Row
-             */
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            /**
-             * Array key to valiable Con
-             */
-            extract($row);
-        }
+    if (isset($_GET['id'])) {
+      /**
+       * Select Query
+       */
+      $sql = "SELECT * FROM `course` WHERE id = :id";
+      /**
+       * prepare statement
+       */
+      $stmt = $dbh->prepare($sql);
+      /**
+       * Bind Param
+       */
+      $stmt->bindParam(':id', $_GET['id']);
+      /**
+       * Execute Query
+       */
+      $stmt->execute();
+      /**
+       * Fetch Single Row
+       */
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      /**
+       * Array key to valiable Con
+       */
+      extract($row);
     }
+  }
 ?>
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,12 +55,13 @@ if(strlen($_SESSION['email']) == 0){
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+
   <body class="app sidebar-mini">
     <!-- Navbar-->
     <?php include_once('include/header.php') ?>
     <!-- Sidebar -->
     <?php include_once('include/sidebar.php') ?>
-  
+
     <main class="app-content">
       <div class="app-title">
         <div>
@@ -80,9 +82,9 @@ if(strlen($_SESSION['email']) == 0){
             // echo $id;
             ?>
             <div class="tile-body">
-            <form action="course-update.php" method="post" enctype="multipart/form-data">
+              <form action="course-update.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                <input type="hidden" name="id" value="<?php echo $id ?>">
+                  <input type="hidden" name="id" value="<?php echo $id ?>">
                   <label class="control-label" for="name">Course name</label>
                   <input class="form-control" type="text" name="name" id="name" value="<?php echo $name; ?>">
                 </div>
@@ -103,7 +105,7 @@ if(strlen($_SESSION['email']) == 0){
                   <input class="form-control" type="text" name="seat_available" id="seat_available" value="<?php echo $seat_available ?>">
                 </div>
 
-                 <div class="form-group">
+                <div class="form-group">
                   <label class="control-label" for="class_size">Class size</label>
                   <input class="form-control" type="text" name="class_size" id="class_size" value="<?php echo $class_size ?>">
                 </div>
@@ -119,9 +121,9 @@ if(strlen($_SESSION['email']) == 0){
                   <img src="<?php echo $image; ?>" alt="!" height="60">
                   <input type="hidden" name="old_image" value="<?php echo $image; ?>">
                 </div>
-                 
 
-                 <div class="form-group">
+
+                <div class="form-group">
                   <label class="control-label" for="short_description">Short description</label>
                   <input class="form-control" type="text" name="short_description" id="short_description" value="<?php echo $short_description ?>">
                 </div>
@@ -140,11 +142,11 @@ if(strlen($_SESSION['email']) == 0){
                 <div class="form-group">
                   <label class="control-label" for="status">Status</label>
                   <select name="status" id="status" class="form-control">
-                    <option value="1" <?php if($status == 1) echo "selected"; ?>>Active</option> 
-                    <option value="0" <?php if($status == 0) echo "selected"; ?>>Deactive</option> 
+                    <option value="1" <?php if ($status == 1) echo "selected"; ?>>Active</option>
+                    <option value="0" <?php if ($status == 0) echo "selected"; ?>>Deactive</option>
                   </select>
                 </div>
-                
+
             </div>
             <div class="tile-footer">
               <button class="btn btn-primary" type="submit" name="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update course</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="course-show.php"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
@@ -154,14 +156,15 @@ if(strlen($_SESSION['email']) == 0){
         </div>
       </div>
     </main>
-   <!-- Footer -->
+    <!-- Footer -->
     <?php include_once('include/footer.php') ?>
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
     <script>
-                        CKEDITOR.replace( 'long_description' );
-                </script>
+      CKEDITOR.replace('long_description');
+    </script>
   </body>
-</html>
+
+  </html>
 <?php
 }
 ?>

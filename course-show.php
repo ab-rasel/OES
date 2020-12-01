@@ -4,28 +4,29 @@ session_start();
  * Connect to DB
  */
 require_once("config/db_config.php");
-if(strlen($_SESSION['email']) == 0){
+if (strlen($_SESSION['email']) == 0) {
   header("Location:index.php");
-}else{
-    /**
-     * Query for Database
-     */
-    $sql = 'SELECT * FROM `course`';
-    /**
-     * Prepare statement
-     */
-    $stmt = $dbh->prepare($sql);
-    /**
-     * Execute Query
-     */
-    $stmt->execute();
-    /**
-     * Fetch All row
-     */
-    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+  /**
+   * Query for Database
+   */
+  $sql = 'SELECT * FROM `course`';
+  /**
+   * Prepare statement
+   */
+  $stmt = $dbh->prepare($sql);
+  /**
+   * Execute Query
+   */
+  $stmt->execute();
+  /**
+   * Fetch All row
+   */
+  $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,6 +37,7 @@ if(strlen($_SESSION['email']) == 0){
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+
   <body class="app sidebar-mini">
     <!-- Navbar-->
     <?php include_once('include/header.php') ?>
@@ -61,34 +63,38 @@ if(strlen($_SESSION['email']) == 0){
                   <thead>
                     <tr>
                       <th>#</th>
-                           <th>Name</th>
-                           <th>Course duration</th>
-                           
-                           <th>Image</th>
-                           <th>Status</th>
+                      <th>Name</th>
+                      <th>Course duration</th>
+
+                      <th>Image</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                  <?php
-                  $i = 1;
-                  foreach($row as $val){
-                    ?>
-                    <tr>
-                      <td><?php echo $i ?></td>
-                      <td><?php echo $val['name']; ?></td>
-                      <td><?php echo $val['course_duration']; ?></td>
-                     
-                      <td><img src="<?php echo $val['image']; ?>" alt="!" height="50"></td>
-                      <td><?php if($val['status'] == 0) {echo "<span class='text-danger'><b>Deactive</b></span>";}else{echo "<span class='text-success'><b>Active</b></span>";} ?></td>
-                      <td>
-                        <a href="course-edit.php?id=<?php echo $val['id']; ?>" class="btn btn-success">Edit</a>
-                        <a href="course-view.php?id=<?php echo $val['id']; ?>" class="btn btn-info">View</a>
-                        <a href="course-delete.php?id=<?php echo $val['id']; ?>" class="btn btn-danger">Delete</a>
-                      </td>
-                    </tr>
                     <?php
-                    $i++;
-                     }
+                    $i = 1;
+                    foreach ($row as $val) {
+                    ?>
+                      <tr>
+                        <td><?php echo $i ?></td>
+                        <td><?php echo $val['name']; ?></td>
+                        <td><?php echo $val['course_duration']; ?></td>
+
+                        <td><img src="<?php echo $val['image']; ?>" alt="!" height="50"></td>
+                        <td><?php if ($val['status'] == 0) {
+                              echo "<span class='text-danger'><b>Deactive</b></span>";
+                            } else {
+                              echo "<span class='text-success'><b>Active</b></span>";
+                            } ?></td>
+                        <td>
+                          <a href="course-edit.php?id=<?php echo $val['id']; ?>" class="btn btn-success">Edit</a>
+                          <a href="course-view.php?id=<?php echo $val['id']; ?>" class="btn btn-info">View</a>
+                          <a href="course-delete.php?id=<?php echo $val['id']; ?>" class="btn btn-danger">Delete</a>
+                        </td>
+                      </tr>
+                    <?php
+                      $i++;
+                    }
                     ?>
                   </tbody>
                 </table>
@@ -98,15 +104,18 @@ if(strlen($_SESSION['email']) == 0){
         </div>
       </div>
     </main>
-   
-   <!-- Footer -->
+
+    <!-- Footer -->
     <?php include_once('include/footer.php') ?>
-     <!-- Data table plugin-->
-     <script type="text/javascript" src="assets/js/plugins/jquery.dataTables.min.js"></script>
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="assets/js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="assets/js/plugins/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+    <script type="text/javascript">
+      $('#sampleTable').DataTable();
+    </script>
   </body>
-</html>
+
+  </html>
 <?php
 }
 ?>

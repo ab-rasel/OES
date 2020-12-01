@@ -92,5 +92,3 @@ if(strlen($_SESSION['email']) == 0){
         }
     }
 }
-
-?>
